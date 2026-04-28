@@ -1,0 +1,66 @@
+{
+  "name": "smartattendance",
+  "version": "1.0.0",
+  "description": "Offline AI face recognition attendance desktop app",
+  "main": "electron/main.js",
+  "author": "SmartAttendance",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "dev:electron": "wait-on tcp:5173 && electron .",
+    "start:desktop": "concurrently \"npm run dev\" \"npm run dev:electron\"",
+    "start:local": "npm run build:web && electron .",
+    "build:web": "vite build",
+    "build:electron": "npm run build:web && electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "com.smartattendance.app",
+    "productName": "SmartAttendance",
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "models/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "public",
+      "output": "release"
+    },
+    "win": {
+      "signAndEditExecutable": false,
+      "target": [
+        "nsis"
+      ],
+      "artifactName": "SmartAttendance-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false
+    }
+  },
+  "dependencies": {
+    "@tensorflow/tfjs": "^4.22.0",
+    "@vladmandic/face-api": "^1.7.14",
+    "bcryptjs": "^2.4.3",
+    "dayjs": "^1.11.13",
+    "exceljs": "^4.4.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
+    "vite": "^6.0.1",
+    "wait-on": "^8.0.1"
+  }
+}
